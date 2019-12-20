@@ -1,22 +1,32 @@
+# This script was coded by Simon Bucher for learning Python
+
 from gpiozero import LED, CPUTemperature
 from time import sleep
 import math
+import logging
 
-# LED variable configuration
+#Add new logging libary for better performance then use print()
+log = logging.getLogger()
+console = logging.Streamhandler()
+
+# Add handler of logging 
+log.addHandler(console)
+
+#Add LED variable configuration
 is_normal = LED(17)
 warning = LED(27)
 
-# new CPU Libary
+#Add new cpu libary
 cpu = CPUTemperature()
 
 if cpu.temperature < 60:
  is_normal.on()
- print("CPU Temperature is " + math.floor(cpu.temperature) + " °C")
+ log.warn('CPU has ' + math.floor(cpu.temperature) + ' °C')
  sleep(5)
  is_normal.off()
 
 else: 
   warning.on()
-  print("CPU Temperature is " + math.floor(cpu.temperature) + " °C")
+  log.warn('CPU has ' + math.floor(cpu.temperature) + ' °C')
   sleep(5)
   warning.off()
